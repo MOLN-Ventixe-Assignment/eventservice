@@ -41,15 +41,19 @@ public class EventService(IEventRepository eventRepository) : IEventService
     public async Task<EventResult<IEnumerable<Event>>> GetEventsAsync()
     {
         var result = await _eventRepository.GetAllAsync();
-        var events = result.Result?.Select(x => new Event
+        var events = result.Result?.Select(static x => new Event
         {
             Id = x.Id,
             Image = x.Image,
             Title = x.Title,
             Description = x.Description,
             Location = x.Location,
-            EventDate = x.EventDate
+            EventDate = x.EventDate,
+            DisplayDate = x.EventDate.ToString("MMM d, yyyy") + " - " +
+                        x.EventDate.ToString("H:mm")
         });
+
+
 
         return new EventResult<IEnumerable<Event>> { Success = true, Result = events };
 
@@ -67,7 +71,9 @@ public class EventService(IEventRepository eventRepository) : IEventService
                 Title = result.Result.Title,
                 Description = result.Result.Description,
                 Location = result.Result.Location,
-                EventDate = result.Result.EventDate
+                EventDate = result.Result.EventDate,
+                DisplayDate = result.Result.EventDate.ToString("MMM d, yyyy") + " - " +
+                        result.Result.EventDate.ToString("H:mm")
             };
 
             return new EventResult<Event?> { Success = true, Result = currentEvent };

@@ -13,4 +13,6 @@ public class Event
     public string? Location { get; set; }
 
     public string? Description { get; set; }
+
+    public string? DisplayDate { get; set; }
 }
